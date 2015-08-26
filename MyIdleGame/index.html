@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="tstuffIG" ng-controller="GameController as GC" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>IdleGame</title>
+
+    <link href="style/build.css" rel="stylesheet" />
+
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+
+    <link href="style/main.css" rel="stylesheet" />
+    <link href="style/res.css" rel="stylesheet" />
+    <link href="style/style.css" rel="stylesheet" />
+    <link href="style/unit.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div stlye="height:100%;" id="content">
+        <!-- HEADER-->
+        <div id="head">
+            <!-- NAVIGATION -->
+            <div id="head_nav">
+                <div>
+                    <a href="#/B"><img class="button_42" src="images/gui/buildings.png" ng-click="GC.showWindow = 'B'" title="Buildings" /></a>
+                </div>
+
+                <div>
+                    <a href="#/R"><img class="button_42" src="images/gui/res.png" ng-click="GC.showWindow = 'R'" title="Resources" /></a>
+                </div>
+                <div>
+                    <a href="#/U"><img class="button_42" src="images/gui/unit.png" ng-click="GC.showWindow = 'U'" title="Units" /></a>
+                </div>
+                <div>
+                    <a href="#/W"><img class="button_42" src="images/gui/att.png" ng-click="GC.showWindow = 'W'" title="Armee" ng-if="GC.data.fArmee" /></a>
+                </div>
+                <div>
+                    <a href="#/UP"><img class="button_42" src="images/gui/database.png" ng-click="GC.showWindow = 'UP'" title="Research" /></a>
+                </div>
+                <div>
+                    <a href="#/GM"><img class="button_42" src="images/gui/market.png" ng-click="GC.showWindow = 'GM'" title="Markt" ng-if="GC.data.fMarket" /></a>
+                </div>
+                <div>
+                    <a href="#/A"><img class="button_42" src="images/gui/trip.png" ng-click="GC.showWindow = 'A'" title="Achivements" ng-if="GC.data.fStats || GC.data.fAchivements" /></a>
+                </div>
+                <!-- END NAV -->
+            </div>
+            <!-- END HEADER-->
+        </div>
+
+        <!-- SIDE BOX -->
+        <div id="mainInfo" style="overflow:visible;">
+            <accordion close-others="false">
+                <accordion-group heading="Info" class="small" is-open="GC.data.ui.isInfoSideNavOpen" >
+                    <table class="table">
+                        <tr>
+                            <th>Units</th>
+                            <td>{{GC.data.unitsTotal|number:0 }} ({{GC.units.Villager.data.amount}}) / ~{{GC.buildings["House"].getMaxUnits(GC) | number:0}} </td>
+                        </tr>
+                        <tr>
+                            <th>Res.</th>
+                            <td>{{GC.data.totalRes|number:0}} / {{GC.buildings["Storagehouse"].getSpace(GC) | number:0}}</td>
+                        </tr>
+                        <tr>
+                            <th>Research</th>
+                            <td>{{GC.data.researchPoints|number:0}} / {{GC.buildings.Research.getSpace(GC) | number:0}} </td>
+                        </tr>
+                        <tr ng-if="GC.data.fMarket">
+                            <th>Gold</th>
+                            <td>{{GC.data.gold | number:0}}</td>
+                        </tr>
+                        <tr ng-if="GC.data.fAchivements">
+                            <th>Ruhm</th>
+                            <td>{{GC.data.honorPoints}}</td>
+                        </tr>
+                     
+                    </table>
+                </accordion-group>
+                <accordion-group is-open="GC.data.ui.isOptionSideNavOpen" heading="Einstellungen">
+                    <ul class="list-group"  >
+                        <li class="list-group-item">Gameversion: {{GC.data.version}}</li>
+                        <li class="list-group-item">
+                            Add per Click:
+                            <select ng-model="GC.addPerClick" class="dropdown" style="color:black;">
+                                <option value="1">1</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="75">75</option>
+                                <option value="100">100</option>
+                                <option value="250">250</option>
+                            </select>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#/L" class="btn btn-xs btn-info" ng-click="GC.showWindow = 'L'" title="Log">Log</a>
+                            <a href="#/UL" class="btn btn-xs btn-info" ng-click="GC.showWindow = 'UL'" title="Upgradelog">Updates</a>
+                            <a href="#/WL" class="btn btn-xs btn-info" ng-click="GC.showWindow = 'WL'" title="Upgradelog">W-List</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a class="btn btn-info btn-xs" ng-click="GC.disc()" title="Upgradelog">Hide/Show Disqus</a>
+                            <a class="btn btn-danger btn-xs" ng-click="GC.clear()">Clear Save</a>
+                        </li>
+                    </ul>
+                </accordion-group>
+            </accordion>
+        </div>
+        <!-- END SIDEBOX-->
+        
+        <div id="world">
+            <div ng-if="GC.showWindow == 'R'" ng-include="'templates/resources.html'"></div>
+            <div ng-if="GC.showWindow == 'B'" ng-include="'templates/building.html'"></div>
+            <div ng-if="GC.showWindow == 'U'" ng-include="'templates/units.html'"> </div>
+            <div ng-if="GC.showWindow == 'UP'" ng-include="'templates/research.html'"> </div>
+            <div ng-if="GC.showWindow == 'A'" ng-include="'templates/achivements.html'"> </div>
+            <div ng-if="GC.showWindow == 'GM'" ng-include="'templates/globalmarket.html'"> </div>
+            <div ng-if="GC.showWindow == 'L'" ng-include="'templates/log.html'"> </div>
+            <div ng-if="GC.showWindow == 'UL'" ng-include="'templates/updatelog.html'"> </div>
+            <div ng-if="GC.showWindow == 'WL'" ng-include="'templates/wishlist.html'"> </div>
+            <div ng-if="GC.showWindow == 'BETA'" ng-include="'templates/beta.html'"></div>
+        </div>
+
+        <div style="height:150px"></div>
+
+        <div id="footer">
+                <span ng-repeat="res in GC.resources" title="{{res.displayName}}" style="text-align:center">
+                    <span>
+                        <img title="{{res.displayName}}" ng-src="{{GC.getImagePath(res.data.name)}}" style="width:23px">
+                    </span>
+                    <span style="color:white">{{res.data.amount}}</span>
+                </span>
+            </div>
+        </div>
+
+
+    <div class="discuss">
+        <div id="disqus_thread" ng-show="GC.data.ui.showDisq"></div>
+    </div>
+
+
+    <!-- Script -->
+
+    <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES * * */
+                var disqus_shortname = 'tstuff';
+                var disqus_identifier = 'tstuff_game_dev';
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function () {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+    </script>
+
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap.min.js"></script>
+
+
+    <script src="Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="lib/Util/Helper.js"></script>
+    <script src="lib/Util/GuiHelper.js"></script>
+
+    <script src="lib/Config/BuildingConfig.js"></script>
+    <script src="lib/Config/ResourceConfig.js"></script>
+    <script src="lib/Config/UnitConfig.js"></script>
+    <script src="lib/Config/UpgradeConfig.js"></script>
+    <script src="lib/Config/AchivementConfig.js"></script>
+
+    <script src="lib/Data/Statistics.js"></script>
+    <script src="lib/Data/Language.js"></script>
+    <script src="lib/Data/GameInfo.js"></script>
+
+    <script src="lib/Entitys/Upgrades.js"></script>
+    <script src="lib/Entitys/Achivements.js"></script>
+    <script src="lib/Entitys/Buildings.js"></script>
+    <script src="lib/Entitys/GameDatabase.js"></script>
+    <script src="lib/Entitys/Market.js"></script>
+    <script src="lib/Entitys/Resources.js"></script>
+    <script src="lib/Entitys/Units.js"></script>
+    <script src="lib/Processors/OnlineFeatures.js"></script>
+    <script src="lib/Processors/Tutorial.js"></script>
+    <script src="lib/Processors/GameSetup.js"></script>
+    <script src="lib/Processors/FeatureActivator.js"></script>
+    <script src="lib/Processors/DataBuilder.js"></script>
+    <script src="lib/GameCtrl.js"></script>
+    <script src="lib/app.js"></script>
+</body>
+</html>

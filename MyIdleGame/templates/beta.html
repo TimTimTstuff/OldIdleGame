@@ -1,0 +1,65 @@
+﻿<div class="twoBox">
+    <div class="boxleft" style="float:left;width:120px">
+        <button ng-click="GC.guiHelper.showRes()" class="btn btn-info btn-xs">R</button>
+        <button ng-click="GC.guiHelper.showProd()" class="btn btn-info btn-xs">P</button>
+        <button ng-click="GC.guiHelper.showUnit()" class="btn btn-info btn-xs">U</button>
+        <button ng-click="GC.guiHelper.showAllBuildings()" class="btn btn-info btn-xs">Show All</button>
+        <button ng-click="GC.guiHelper.hideAllBuildings()" class="btn btn-info btn-xs">Hide All</button>
+        <div style="width:60px;float:left;background-color:white;padding:5px;" class="list-group-item" ng-repeat="building in GC.buildings" ng-if="building.conf.type != 'special'">
+            <img popover-placement="left" popover="{{building.displayName}}" ng-src="images/buildings/{{building.data.name}}.png" style="width:25px" title="{{building.displayName}}" /> <input type="checkbox" ng-model="GC.data.ui.bView[building.data.name+'_showBuilding']" class="checkbox checkbox-inline " />
+        </div>
+
+    </div>
+    <div class="boxRight" style="margin-left:120px">
+
+         <div class="buildingBoxBig" ng-repeat="building in GC.buildings" ng-if="building.conf.type != 'special'" ng-show="GC.data.ui.bView[building.data.name+'_showBuilding']">
+             <span popover-placement="bottom" popover="{{building.conf.desc}}" class="glyphicon glyphicon-info-sign" style="float:left;color:#589df2;position:relative;top:6px;left:6px;width:15px"></span>
+
+            <div class="buildingImage">
+                <img ng-src="images/buildings/{{building.data.name}}.png">
+              
+</div>
+           
+            <div  class="buildingHeader">
+                 {{building.displayName}} Lvl. {{building.data.level}} <span class="loadOuter"><span class="loadInner" style="width:{{building.getProducingPercent()}}%;">{{building.getProducingPercent()}}%</span></span>
+               
+              </div>
+            <div class="buildingContent">
+                <div class="thirdBox buildingWorkers">
+                    <h4>{{GC.getText("worker_button_name")}}</h4> <div class="">
+                       
+                        <span ng-if="GC.units[building.conf.processUnit].type == 'worker'">
+                            <button ng-click="GC.units[building.conf.processUnit].removeUnit(GC)">-</button>   {{building.currentUnits(GC)}}/{{building.maxUnits()}} <button ng-click="GC.units[building.conf.processUnit].addUnit(GC)">+</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="thirdBox buildingWorkers">
+                    <h4>{{GC.getText("ordered_button_name")}}</h4>
+                    <div ng-if="building.type == 'extendresource' || building.type=='unit'">
+                        <div ng-repeat="r in building.resViewArray">
+                            <img style="width:16px" ng-src="{{GC.getImagePath(r.o)}}" title="{{r.name}}" />
+                            <span ng-class="{greenText: r.need < r.stock , redText:r.need > r.stock}" title="">{{r.need}} / {{r.stock}} </span>
+                        </div>
+
+                        <div><button ng-click="building.remUnitQ(GC)">-</button> {{building.data.processQ}} <button ng-click="building.addUnitToQ(GC)">+</button>  </div>
+                    </div>
+                </div>
+                <div class="thirdBox buildingWorkers">
+                    <h4>{{GC.getText("upgrade_button_name")}} <span popover-placement="bottom" popover="{{building.conf.updDesc}}" class="glyphicon glyphicon-info-sign" style="color:#589df2;font-size:8pt;"></span></h4>
+                    <div ng-repeat="r in building.viewArray">
+                        <img style="width:16px" ng-src="images/resources/{{r.o}}.png" title="{{r.name}}" />
+                        <span ng-class="{greenText: r.need < r.stock , redText:r.need > r.stock}">{{r.need}} / {{r.stock}} </span>
+                    </div>
+                    <div>
+                        <button ng-show="building.canUp" ng-click="building.upgrade(GC)">{{GC.getText("upgrade_button_name")}}</button>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

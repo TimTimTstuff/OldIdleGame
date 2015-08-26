@@ -1,0 +1,24 @@
+﻿<div ng-repeat="building in GC.buildings" ng-if="building.type == 'basicresource'">
+    <div class="build_box">
+        <div class="build_field_l ">
+            <img class="build_image" ng-src="images/buildings/{{building.data.name}}.png">
+        </div>
+        <div class="building_field_l build_text">{{building.displayName}} Level: {{building.data.level}}  <span class="loadOuter"><span class="loadInner" style="width:{{building.getProducingPercent()}}%;">{{building.getProducingPercent()}}%</span></span></div>
+
+        <img ng-src="images/resources/{{building.resId}}.png" title="{{GC.resources[building.resId].displayName}}" class="small_label_image build_field_l" />
+        <div class="build_field_l build_text">PpS: {{GC.getPerSecond(building.getProducePerSecond(GC)) | number:2}}</div>
+        <div class="build_field_l build_text">
+            Worker: {{building.currentUnits(GC)}}/{{building.maxUnits()}} <span ng-if="GC.units[building.conf.processUnit].type == 'worker'"><button ng-click="GC.units[building.conf.processUnit].addUnit(GC)">+</button> - <button ng-click="GC.units[building.conf.processUnit].removeUnit(GC)">-</button></span>
+        </div>
+
+        <div ng-repeat="r in building.viewArray">
+            <img ng-src="images/resources/{{r.o}}.png" title="{{r.name}}" class="small_label_image build_field_l" />
+            <span class="build_field_l build_text" ng-class="{greenText: r.need < r.stock , redText:r.need > r.stock}">{{r.need}} </span>
+        </div>
+        <div class="build_field_l build_text">
+            <button ng-click="building.upgrade(GC)">{{GC.getText("upgrade_button_name")}}</button>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,22 @@
+﻿<div ng-if="GC.data.fStats">
+    <h3>Statistiken</h3>
+    <table class="table" style="width:30%;background-color: white;">
+        <tr ng-repeat="s in GC.data.statistics | orderBy:'sType'">
+            <th>{{s.displayText}}</th>
+            <td>{{s.value}}</td>
+            
+
+        </tr>
+    </table>
+</div>
+
+<div ng-if="GC.data.fAchivements">
+    <h3>Achivements {{GC.Achivements.active.length}} / {{GC.Achivements.getAchivementsTotal()}}</h3>
+    <table class="table" style="width:60%;background-color: white;">
+        <tr ng-repeat="a in GC.Achivements.active | orderBy:'-date'  ">
+            <th>{{a.displayName}}</th> <td> {{a.displayText}}</td><td>{{a.data.pDate}} </td>
+        </tr>
+    </table>
+
+</div>
+

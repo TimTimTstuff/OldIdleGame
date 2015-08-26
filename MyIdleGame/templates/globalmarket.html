@@ -1,0 +1,67 @@
+﻿
+
+<div class="buildingBoxBig" style="float:none" ng-init="building = GC.buildings['Market']">
+    <span tooltip-placement="bottom" tooltip="{{building.conf.desc}}" class="glyphicon glyphicon-info-sign" style="float:left;color:#589df2;position:relative;top:6px;left:6px;width:15px"></span>
+
+    <div class="buildingImage">
+        <img ng-src="images/buildings/{{building.data.name}}.png">
+
+    </div>
+
+    <div class="buildingHeader">
+        {{building.displayName}} Lvl. {{building.data.level}} <span class="loadOuter"><span class="loadInner" style="width:{{building.getProducingPercent()}}%;">{{building.getProducingPercent()}}%</span></span>
+
+    </div>
+    <div class="buildingContent">
+        <div class="thirdBox buildingWorkers">
+            <h4>{{GC.getText("market_points_name")}}</h4>
+            {{GC.data.currentSellAtMarket}} / {{GC.buildings["Market"].getSpace(GC)|number:0}}
+            <div>Time to Change: {{GC.market.timeString}}</div>
+            </div>
+        </div>
+        <div class="thirdBox buildingWorkers">
+            <h4>{{GC.getText("ordered_button_name")}}</h4>
+            <div ng-if="building.type == 'extendresource' || building.type=='unit'">
+                <div ng-repeat="r in building.resViewArray">
+                    <img style="width:16px" ng-src="{{GC.getImagePath(r.o)}}" title="{{r.name}}" />
+                    <span ng-class="{greenText: r.need < r.stock , redText:r.need > r.stock}" title="">{{r.need}} / {{r.stock}} </span>
+                </div>
+
+                <div><button class="btn btn-danger btn-xs" ng-click="building.remUnitQ(GC)">-</button> {{building.data.processQ}} <button class="btn btn-success btn-xs" ng-click="building.addUnitToQ(GC)">+</button>  </div>
+            </div>
+        </div>
+        <div class="thirdBox buildingWorkers">
+            <h4>{{GC.getText("upgrade_button_name")}} <span tooltip-placement="bottom" tooltip="{{building.conf.updDesc}}" class="glyphicon glyphicon-info-sign" style="color:#589df2;font-size:8pt;"></span></h4>
+            <div ng-repeat="r in building.viewArray">
+                <img style="width:16px" ng-src="images/resources/{{r.o}}.png" title="{{r.name}}" />
+                <span ng-class="{greenText: r.need < r.stock , redText:r.need > r.stock}">{{r.need}} / {{r.stock}} </span>
+            </div>
+            <div>
+                <div ng-show="building.canUp" ng-click="building.upgrade(GC)" title="{{GC.getText('upgrade_button_name')}}"><span class="glyphicon glyphicon-circle-arrow-up" style="color:green;font-size:16pt;cursor:pointer;"></span></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<table class="table" style="width:600px;background-color:white" >
+    <tr>
+        <th>Resource</th>
+        <th>Lager</th>
+        <th>Kaufpreis</th>
+        <th>Verkaufspreis</th>
+        <th>Aktioin</th>
+    </tr>
+    <tr ng-repeat="res in GC.market.data" >
+        <td><img style="width:32px" ng-src="images/resources/{{res.resId}}.png"></td>
+        <td>{{GC.resources[res.resId].data.amount}} </td>
+        <td>{{GC.market.getBuyPriceDisplay(res.resId,GC)}} </td>
+        <td>{{GC.market.getSellPriceDisplay(res.resId,GC)}} </td>
+        <td><button class="btn btn-success btn-sm" ng-click="GC.market.buyRes(res.resId,GC)">Buy</button> <button class="btn btn-danger btn-sm" ng-click="GC.market.sellRes(res.resId,GC)">Sell</button></td>
+    </tr>
+</table>
+

@@ -1,0 +1,46 @@
+.label_res, .amount_res,  .desc_res{
+    float:left;
+    margin-left: 5px;
+}
+
+.label_res, .amount_res,  .desc_res{
+    padding-top: 8px;
+ }
+ 
+ .amount_res{
+     float:right;
+ }
+ 
+.img_res img{
+    width: 32px;
+    height: 32px;
+    float:left;
+}
+
+.item_res{
+    width: 135px;
+    height: 45px;
+    padding:5px; 
+    padding-right: 10px;
+    margin:5px;
+    border-bottom: solid 1px gray;
+    border-left: solid 1px gray;
+    background-image: url(../images/gui/itemback.png);
+    background-size: 100% 100%;
+    color:lightgray;
+    float:left;
+}
+
+.desc_res{
+    display: none;
+   
+}
+
+.row_res{
+    float:left;
+}
+
+#res{
+    
+    height:250px;
+}

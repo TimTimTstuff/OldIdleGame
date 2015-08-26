@@ -1,0 +1,37 @@
+
+.build_box{
+    margin-left:25px;
+    background-image: url(../images/gui/bigback.png);
+    height: 100px;
+    width: 600px;
+    background-size: 100% 100%;
+    padding-left: 8px;
+    margin-bottom:15px;
+}
+
+.build_field_l{
+    float:left;
+    margin-left: 6px;
+}
+
+
+
+.build_text{
+    padding-top: 10px;
+    color:lightgray;
+    font-size: 11pt;
+}
+
+.build_image{
+    padding-top: 8px;
+    width:51px;
+    height: 51px;
+}
+
+.small_label_image{
+    width:16px;
+    height:16px;
+    padding-top:1px;
+    margin-left:1px;
+}
+

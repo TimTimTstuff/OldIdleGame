@@ -1,0 +1,18 @@
+﻿
+
+<table class="table" style="background-color:white; width:30%" id="">
+    <tr ng-repeat="unit in GC.units | orderBy:'displayName'" >
+        <th> 
+         {{unit.displayName}} Lvl. {{unit.data.level}}
+        </th> 
+          <td style="text-align:right;">
+         {{unit.data.amount}}  
+          </td>
+        <td><span>{{unit.getUpgradeCost(GC)}} Ruhm</span>
+        <div ng-show="unit.canUpgrade(GC)" ng-click="unit.upgradeUnit(GC)" title="{{GC.getText('upgrade_unit_button_name')}}">
+            
+            <span class="glyphicon glyphicon-circle-arrow-up" style="color:green;font-size:16pt;cursor:pointer;"></span>
+            </div>
+        </td>
+    </tr>
+</table>

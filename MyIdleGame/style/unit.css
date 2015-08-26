@@ -1,0 +1,37 @@
+
+.unit_box{
+    margin-left:25px;
+    background-image: url(../images/gui/unitback.png);
+    height: 42px;
+    width: 500px;
+    background-size: 100% 100%;
+    padding-left: 8px;
+}
+
+.unit_field_l{
+    float:left;
+    margin-left: 6px;
+}
+
+.unit_field_r{
+    float:right;
+    margin-left: 3px;
+}
+
+.unit_text{
+    padding-top: 10px;
+    color:lightgray;
+    font-size: 11pt;
+}
+
+.unit_image{
+    width:32px;
+    height: 32px;
+}
+
+.small_label_image{
+    width:24px;
+    height:24px;
+    padding-top:5px;
+    margin-left:5px;
+}
